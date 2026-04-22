@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-avante-blue: #0A3D91;
+  --color-avante-dark: #051C45;
+  --color-avante-light: #E6F0FF;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-slate-900 font-sans antialiased;
+  }
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-avante-blue to-blue-500;
+}
+
+.glass-nav {
+  @apply bg-white/80 backdrop-blur-md border-b border-white/20;
+}
