@@ -26,9 +26,9 @@ export default function App() {
           <Navbar />
           <main>
             <Hero />
+            <Services />
             <Partners />
             <About />
-            <Services />
             <WhyChooseUs />
             <Contact />
           </main>

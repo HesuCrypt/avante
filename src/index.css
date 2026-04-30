@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* ── Global: hide scrollbar, keep scroll functionality ─────────────────── */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+html {
+  -ms-overflow-style: none;
+}
+
 @theme {
   --color-avante-blue: #0A3D91;
   --color-avante-dark: #051C45;
@@ -10,9 +23,31 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+    text-rendering: optimizeLegibility;
   }
+
   body {
     @apply bg-white text-slate-900 font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -22,4 +57,234 @@
 
 .glass-nav {
   @apply bg-white/80 backdrop-blur-md border-b border-white/20;
+}
+
+.expertise-section {
+  background: #fff;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.75rem 2.5rem;
+  overflow: hidden;
+}
+
+.expertise-label {
+  color: var(--color-avante-blue);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.carousel-component {
+  width: min(1320px, calc(100% - 2.5rem));
+  height: clamp(500px, 72vh, 720px);
+  position: relative;
+  perspective: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.carousel-content-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.carousel-content-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(52vw, 760px);
+  height: min(60vh, 470px);
+  transform-style: preserve-3d;
+  margin-left: calc(min(52vw, 760px) * -0.5);
+  margin-top: calc(min(60vh, 470px) * -0.5);
+  overflow: visible;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Text area — sits above the image via z-index, gradient baked in */
+.card-text {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.45) 55%,
+      transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.heading {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1rem, 2.5vw, 1.75rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  word-break: break-word;
+  white-space: normal;
+  max-width: 100%;
+}
+
+.card-subtitle {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.7rem, 1.2vw, 0.875rem);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.btn-cta {
+  align-self: flex-start;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: lowercase;
+  color: #fff;
+  background: var(--color-avante-blue);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  margin-top: 0.2rem;
+}
+
+.carousel-arrow-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 0.35rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.arrow-prev,
+.arrow-next {
+  width: 2.8rem;
+  height: 2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-avante-blue);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.arrow-prev:hover,
+.arrow-next:hover {
+  background: var(--color-avante-dark);
+}
+
+.carousel-counter {
+  position: absolute;
+  left: 50%;
+  bottom: -1.6rem;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-avante-blue);
+  transition: opacity 600ms ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .expertise-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .carousel-component {
+    width: min(100%, calc(100% - 2rem));
+  }
+
+  .carousel-content-item {
+    width: min(66vw, 620px);
+    height: min(52vh, 410px);
+    margin-left: calc(min(66vw, 620px) * -0.5);
+    margin-top: calc(min(52vh, 410px) * -0.5);
+  }
+
+  .heading {
+    font-size: clamp(1.7rem, 7vw, 3.3rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .expertise-section {
+    padding-top: 5.2rem;
+    padding-bottom: 1.8rem;
+  }
+
+  .carousel-component {
+    height: 66vh;
+    width: calc(100% - 1rem);
+  }
+
+  .carousel-content-item {
+    width: 66vw;
+    height: 46vh;
+    margin-left: -33vw;
+    margin-top: -22vh;
+  }
+
+  .heading {
+    font-size: clamp(1.55rem, 10vw, 2.5rem);
+    white-space: normal;
+    width: 88%;
+  }
+
+  .card-subtitle {
+    bottom: 2.7rem;
+    font-size: 0.72rem;
+  }
+
+  .btn-cta {
+    bottom: 0.95rem;
+    font-size: 0.72rem;
+    padding: 0.42rem 0.78rem;
+  }
 }

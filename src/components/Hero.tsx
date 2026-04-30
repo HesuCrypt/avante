@@ -1,8 +1,12 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
 import { Link } from "react-scroll";
 
+const highlightText = "Digital Innovation";
+
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section
       id="hero"
@@ -12,28 +16,44 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/60 via-slate-50 to-white" />
         <motion.div
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.4, 0.6, 0.4],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-blue-200/30 blur-[100px]"
+          animate={
+            prefersReducedMotion
+              ? { opacity: 0.4 }
+              : {
+                  y: [0, -20, 0],
+                  opacity: [0.4, 0.6, 0.4],
+                }
+          }
+          transition={
+            prefersReducedMotion
+              ? { duration: 0.2 }
+              : {
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-blue-200/30 blur-[100px] will-change-transform"
         />
         <motion.div
-          animate={{
-            y: [0, 20, 0],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-300/20 blur-[100px]"
+          animate={
+            prefersReducedMotion
+              ? { opacity: 0.3 }
+              : {
+                  y: [0, 20, 0],
+                  opacity: [0.3, 0.5, 0.3],
+                }
+          }
+          transition={
+            prefersReducedMotion
+              ? { duration: 0.2 }
+              : {
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-300/20 blur-[100px] will-change-transform"
         />
         {/* Subtle grid pattern for corporate tech feel */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMTAsIDYxLCAxNDUsIDAuMDUpIi8+PC9zdmc+')] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
@@ -58,7 +78,19 @@ export default function Hero() {
           className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]"
         >
           Elevating Brands Through <br className="hidden md:block" />
-          <span className="gradient-text">Digital Innovation</span>
+          <span className="gradient-text inline-flex flex-wrap justify-center gap-x-0.5">
+            {highlightText.split("").map((char, index) => (
+              <motion.span
+                key={`hero-char-${index}`}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+                animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.62 + index * 0.018, duration: 0.36 }}
+                className="inline-block"
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </span>
         </motion.h1>
 
         <motion.p
@@ -93,29 +125,10 @@ export default function Hero() {
             className="group px-8 py-4 bg-white text-slate-700 border border-slate-200 shadow-sm rounded-full font-semibold text-lg hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
           >
             <Play className="w-4 h-4 fill-current text-avante-blue group-hover:text-avante-dark transition-colors" />
-            Our Services
+            Our Expertise
           </Link>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-      >
-        <Link to="about" smooth={true} duration={500} className="flex flex-col items-center gap-2">
-          <span className="text-xs text-slate-400 font-semibold uppercase tracking-widest hover:text-avante-blue transition-colors">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-6 h-10 border-2 border-slate-300 rounded-full flex justify-center p-1"
-          >
-            <motion.div className="w-1 h-2 bg-avante-blue rounded-full" />
-          </motion.div>
-        </Link>
-      </motion.div>
     </section>
   );
 }

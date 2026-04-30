@@ -1,4 +1,4 @@
-import { useState, useRef, FormEvent } from "react";
+import { useEffect, useState, useRef, FormEvent } from "react";
 import { motion } from "motion/react";
 import emailjs from "@emailjs/browser";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
@@ -6,6 +6,12 @@ import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  useEffect(() => {
+    if (status !== "success" && status !== "error") return;
+    const timer = setTimeout(() => setStatus("idle"), 3000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -69,6 +75,7 @@ export default function Contact() {
                     required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all"
                     placeholder="John Doe"
+                    onChange={() => status !== "idle" && setStatus("idle")}
                   />
                 </div>
                 <div>
@@ -82,6 +89,7 @@ export default function Contact() {
                     required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all"
                     placeholder="john@company.com"
+                    onChange={() => status !== "idle" && setStatus("idle")}
                   />
                 </div>
                 <div>
@@ -95,12 +103,13 @@ export default function Contact() {
                     rows={4}
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all resize-none"
                     placeholder="Tell us about your project..."
+                    onChange={() => status !== "idle" && setStatus("idle")}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={status === "loading" || status === "success"}
+                  disabled={status === "loading"}
                   className={`w-full py-4 rounded-lg font-bold text-white transition-all flex items-center justify-center gap-2 ${
                     status === "success"
                       ? "bg-green-500 hover:bg-green-600"
