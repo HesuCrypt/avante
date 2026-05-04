@@ -226,7 +226,6 @@ html {
   font-weight: 700;
   letter-spacing: 0.22em;
   color: var(--color-avante-blue);
-  transition: opacity 600ms ease;
   pointer-events: none;
   white-space: nowrap;
 }
