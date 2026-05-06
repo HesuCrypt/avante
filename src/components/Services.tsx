@@ -1,22 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { EXPERTISE_SLIDES, type ExpertiseSlide } from "../constants/expertise";
 
-type Slide = { title: string; subtitle: string; image: string };
-
-const slides: Slide[] = [
-  { title: "ECOMMERCE ACCOUNT MANAGEMENT", subtitle: "End-to-end management of your online store for maximum growth.", image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1400&q=80" },
-  { title: "PERFORMANCE MARKETING", subtitle: "Data-driven campaigns that convert and scale your revenue.", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80" },
-  { title: "SOCIAL MEDIA MANAGEMENT", subtitle: "Strategic content and community management across all platforms.", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=80" },
-  { title: "LIVESTREAM", subtitle: "High-impact live selling and streaming production.", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=80" },
-  { title: "AFFILIATE MANAGEMENT", subtitle: "Build and manage affiliate networks that drive consistent sales.", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80" },
-  { title: "CUSTOMER SERVICE", subtitle: "Exceptional support systems that retain and delight customers.", image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80" },
-];
-
-const TOTAL = slides.length;
+const TOTAL = EXPERTISE_SLIDES.length;
 const ANGLE_PER_CARD = 360 / TOTAL;
 const MAX_ROTATION = (TOTAL - 1) * ANGLE_PER_CARD;
 const CAROUSEL_RADIUS = 980;
 const LERP_FACTOR = 0.06;
+
+/**
+ * Optimized Image Component with Shimmer Placeholder
+ */
+function OptimizedImage({ slide }: { slide: ExpertiseSlide }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const src = (isMobile && slide.mobileImage) ? slide.mobileImage : slide.image;
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {!isLoaded && <div className="absolute inset-0 image-placeholder z-0" />}
+      <img
+        src={src}
+        alt={slide.title}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        onLoad={() => setIsLoaded(true)}
+        className={`img-optimized ${isLoaded ? "is-loaded" : ""} absolute inset-0 w-full h-full object-cover`}
+      />
+    </div>
+  );
+}
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -27,16 +49,32 @@ export default function Services() {
 
   const [currentRotation, setCurrentRotation] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [radius, setRadius] = useState(CAROUSEL_RADIUS);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setRadius(280);
+      } else if (window.innerWidth < 1024) {
+        setRadius(650);
+      } else {
+        setRadius(CAROUSEL_RADIUS);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // ─── Scroll listener — maps scroll progress to rotation ────────────────────
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      
+
       const scrollableDistance = rect.height - window.innerHeight;
       let progress = 0;
-      
+
       if (scrollableDistance > 0) {
         // -rect.top is the distance scrolled into the section
         progress = Math.max(0, Math.min(1, -rect.top / scrollableDistance));
@@ -74,11 +112,11 @@ export default function Services() {
     if (!sectionRef.current) return;
     const clampedIndex = Math.max(0, Math.min(TOTAL - 1, i));
     const progress = clampedIndex / (TOTAL - 1);
-    
+
     const rect = sectionRef.current.getBoundingClientRect();
     const sectionTop = window.scrollY + rect.top;
     const scrollableDistance = rect.height - window.innerHeight;
-    
+
     // Scroll the window to the correct percentage of the sticky section
     window.scrollTo({
       top: sectionTop + progress * scrollableDistance,
@@ -89,25 +127,25 @@ export default function Services() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <section id="services" ref={sectionRef} style={{ height: "400vh", position: "relative", background: "#fff" }}>
+    <section id="services" ref={sectionRef} className="services-container">
       {/* Sticky container holds the actual UI frozen on screen */}
       <div className="expertise-section" style={{ position: "sticky", top: 0, height: "100svh", overflow: "hidden" }}>
-        <p className="expertise-label">OUR EXPERTISE</p>
+        <p className="expertise-label">SERVICES</p>
         <div className="carousel-component">
           <div
             className="carousel-track"
-            style={{ transform: `translateZ(-${CAROUSEL_RADIUS}px) rotateY(${-currentRotation}deg)` }}
+            style={{ transform: `translateZ(-${radius}px) rotateY(${-currentRotation}deg)` }}
           >
             <div className="carousel-content-wrap">
-              {slides.map((slide, index) => (
+              {EXPERTISE_SLIDES.map((slide, index) => (
                 <div
                   key={slide.title}
                   className={`carousel-content-item ${index === activeIndex ? "is-active" : ""}`}
                   data-panel={index}
-                  style={{ transform: `rotateY(${index * ANGLE_PER_CARD}deg) translateZ(${CAROUSEL_RADIUS}px)` }}
+                  style={{ transform: `rotateY(${index * ANGLE_PER_CARD}deg) translateZ(${radius}px)` }}
                 >
                   <div className="card-inner">
-                    <img src={slide.image} alt={slide.title} loading="lazy" decoding="async" draggable={false} />
+                    <OptimizedImage slide={slide} />
                     <div className="card-text">
                       <h2 className="heading">{slide.title}</h2>
                       <p className="card-subtitle">{slide.subtitle}</p>

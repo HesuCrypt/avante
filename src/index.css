@@ -29,7 +29,6 @@ html {
 
   body {
     @apply bg-white text-slate-900 font-sans antialiased;
-    overscroll-behavior-y: none;
   }
 
   * {
@@ -59,8 +58,20 @@ html {
   @apply bg-white/80 backdrop-blur-md border-b border-white/20;
 }
 
+.services-container {
+  height: 400vh;
+  position: relative;
+  background: var(--color-avante-blue);
+}
+
+@media (max-width: 640px) {
+  .services-container {
+    height: 280vh;
+  }
+}
+
 .expertise-section {
-  background: #fff;
+  background: var(--color-avante-blue);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -71,7 +82,7 @@ html {
 }
 
 .expertise-label {
-  color: var(--color-avante-blue);
+  color: #fff;
   font-size: 0.7rem;
   letter-spacing: 0.32em;
   font-weight: 700;
@@ -225,7 +236,7 @@ html {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color: var(--color-avante-blue);
+  color: #fff;
   pointer-events: none;
   white-space: nowrap;
 }
@@ -259,21 +270,22 @@ html {
   }
 
   .carousel-component {
-    height: 66vh;
+    height: 75vh;
     width: calc(100% - 1rem);
+    perspective: 800px;
   }
 
   .carousel-content-item {
-    width: 66vw;
-    height: 46vh;
-    margin-left: -33vw;
-    margin-top: -22vh;
+    width: 82vw;
+    height: 55vh;
+    margin-left: -41vw;
+    margin-top: -27.5vh;
   }
 
   .heading {
-    font-size: clamp(1.55rem, 10vw, 2.5rem);
+    font-size: clamp(1.2rem, 8vw, 2rem);
     white-space: normal;
-    width: 88%;
+    width: 95%;
   }
 
   .card-subtitle {
@@ -286,4 +298,49 @@ html {
     font-size: 0.72rem;
     padding: 0.42rem 0.78rem;
   }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .animate-marquee {
+    animation: none;
+    width: auto;
+    display: grid;
+  }
+}
+
+/* ── Image Optimization & Placeholders ─────────────────────────────────── */
+.image-placeholder {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.img-optimized {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.img-optimized.is-loaded {
+  opacity: 1;
 }

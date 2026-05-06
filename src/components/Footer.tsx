@@ -12,7 +12,7 @@ export default function Footer() {
               <span className="text-white font-black tracking-[0.18em]">Avante Digital Solutions</span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-black leading-[0.95] max-w-3xl mb-10">
+            <h2 className="text-2xl md:text-6xl font-black leading-[0.95] max-w-3xl mb-10">
               THE BEST CLIENT RELATIONSHIPS START WITH A GOOD CONVERSATION.
             </h2>
 

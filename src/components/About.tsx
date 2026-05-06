@@ -6,7 +6,7 @@ export default function About() {
     <section id="about" className="py-24 bg-white relative overflow-hidden">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50" />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
@@ -19,7 +19,7 @@ export default function About() {
             <h2 className="text-sm font-bold text-avante-blue uppercase tracking-widest mb-2">
               Who We Are
             </h2>
-            <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+            <h3 className="text-2xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               Driving Growth Through <br />
               <span className="text-avante-blue">Strategic Innovation</span>
             </h3>
@@ -42,9 +42,9 @@ export default function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
-                  className="flex items-center gap-3 bg-slate-50 border border-slate-100 rounded-lg p-3 shadow-sm w-max pr-6"
+                  className="flex items-center gap-3 bg-slate-50 border border-slate-100 rounded-lg p-3 shadow-sm w-full sm:w-max pr-6"
                 >
-                  <div className="bg-white rounded-full p-1 shadow-sm">
+                  <div className="bg-white rounded-full p-1 shadow-sm shrink-0">
                     <CheckCircle2 className="w-5 h-5 text-avante-blue" />
                   </div>
                   <span className="text-slate-700 font-semibold text-sm">{item}</span>

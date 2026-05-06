@@ -1,50 +1,36 @@
 import { motion } from "motion/react";
-
-const partners = [
-  { name: "Issy", color: "#000000" },
-  { name: "Lucky Beauty", color: "#FF6B6B" },
-  { name: "Blanc Nue", color: "#4A4A4A" },
-  { name: "Tillo", color: "#2E86DE" },
-  { name: "SM Mall", color: "#0056B3" },
-  { name: "Shopee", color: "#EE4D2D" },
-  { name: "Lazada", color: "#0F146D" },
-];
+import { PARTNERS } from "../constants/partners";
 
 export default function Partners() {
   return (
-    <section id="partners" className="py-10 md:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-6 md:mb-10">
+    <section id="partners" className="py-14 md:py-20 bg-white">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 md:mb-12">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-xl md:text-2xl font-bold text-slate-900"
+            className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-none"
           >
-            Trusted by Industry Leaders
+            Trusted by
           </motion.h2>
+          <div className="w-12 h-[3px] bg-avante-blue mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="flex md:grid md:grid-cols-4 lg:grid-cols-7 gap-2.5 md:gap-5 items-center overflow-x-auto md:overflow-visible pb-2 md:pb-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {partners.map((partner, index) => (
+        {/* Vertical list of partners */}
+        <div className="flex flex-col items-center gap-4 md:gap-5">
+          {PARTNERS.map((partner, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              key={partner.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.04 }}
-              className="group relative snap-start min-w-[9.2rem] md:min-w-0 w-full h-12 md:h-16 flex items-center justify-center px-3 md:px-4 grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer rounded-full border border-slate-100 bg-slate-50"
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+              className="w-full text-center"
             >
-              <div className="absolute inset-0 bg-blue-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-              <div className="text-center">
-                <span 
-                  className="font-semibold text-xs md:text-base whitespace-nowrap"
-                  style={{ color: partner.color }} // This color applies only on hover due to grayscale filter on parent
-                >
-                  {partner.name}
-                </span>
-              </div>
+              <span className="text-xl md:text-2xl font-extrabold tracking-[0.15em] text-avante-blue uppercase">
+                {partner.name}
+              </span>
             </motion.div>
           ))}
         </div>

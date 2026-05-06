@@ -70,15 +70,15 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-end relative">
         <Link
           to="hero"
           smooth={true}
           duration={500}
-          className="cursor-pointer flex items-center gap-2"
+          className="cursor-pointer flex items-center gap-2 absolute left-1/2 -translate-x-1/2"
         >
           <span className={`font-black text-lg md:text-xl tracking-[0.22em] uppercase ${isScrolled ? "text-slate-900" : "text-avante-blue"}`}>
-            Avante
+            Avante Digital
           </span>
         </Link>
 
@@ -96,7 +96,7 @@ export default function Navbar() {
             animate={{ y: isMenuOpen ? -2 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            Menu
+            Explore
           </motion.span>
           <motion.span
             animate={{ rotate: isMenuOpen ? 45 : 0 }}
@@ -135,7 +135,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.22, delay: 0.1 }}
                   >
-                    <span className="font-black tracking-[0.22em] uppercase text-avante-blue">Avante</span>
+                    <span className="font-black tracking-[0.22em] uppercase text-avante-blue">Avante Digital</span>
                     <motion.button
                       onClick={() => setIsMenuOpen(false)}
                       whileTap={{ scale: 0.95 }}
@@ -164,7 +164,7 @@ export default function Navbar() {
                           duration={500}
                           offset={-70}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center justify-between text-[clamp(2rem,6vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
+                          className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
                         >
                           {link.name}
                           <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />

@@ -7,7 +7,7 @@ import About from "./components/About";
 import Services from "./components/Services";
 import Partners from "./components/Partners";
 import WhyChooseUs from "./components/WhyChooseUs";
-import Contact from "./components/Contact";
+
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
             <Partners />
             <About />
             <WhyChooseUs />
-            <Contact />
+
           </main>
           <Footer />
         </div>

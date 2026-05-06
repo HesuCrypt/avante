@@ -29,10 +29,10 @@ export default function IntroSplash({ onComplete }: { onComplete: () => void }) 
           className="text-center mb-10"
         >
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white">
-            AVANTE
+            AVANTE DIGITAL
           </h1>
           <p className="text-sm md:text-lg tracking-[0.5em] mt-3 text-blue-300 uppercase font-medium">
-            Digital Solutions
+            Solutions
           </p>
         </motion.div>
 

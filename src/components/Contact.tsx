@@ -48,12 +48,9 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-5">
-            <div className="bg-avante-blue p-10 text-white md:col-span-2 flex flex-col justify-between">
+            <div className="bg-avante-blue p-6 md:p-10 text-white md:col-span-2 flex flex-col justify-between">
               <div>
-                <h3 className="text-2xl font-bold mb-4">Let's Talk</h3>
-                <p className="text-blue-100 mb-8">
-                  Ready to elevate your brand? Send us a message and let's start the conversation.
-                </p>
+                <h3 className="text-2xl font-bold mb-8">Contact Us</h3>
               </div>
               <div className="space-y-4 text-sm text-blue-100">
                 <p>contact@avantedigital.com</p>
@@ -62,7 +59,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="p-10 md:col-span-3">
+            <div className="p-6 md:p-10 md:col-span-3">
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="user_name" className="block text-sm font-medium text-slate-700 mb-1">
