@@ -5,7 +5,7 @@ import { EXPERTISE_SLIDES, type ExpertiseSlide } from "../constants/expertise";
 const TOTAL = EXPERTISE_SLIDES.length;
 const ANGLE_PER_CARD = 360 / TOTAL;
 const MAX_ROTATION = (TOTAL - 1) * ANGLE_PER_CARD;
-const CAROUSEL_RADIUS = 980;
+const CAROUSEL_RADIUS = 1400;
 const LERP_FACTOR = 0.06;
 
 /**
@@ -54,9 +54,9 @@ export default function Services() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
-        setRadius(280);
+        setRadius(350);
       } else if (window.innerWidth < 1024) {
-        setRadius(650);
+        setRadius(700);
       } else {
         setRadius(CAROUSEL_RADIUS);
       }
@@ -166,13 +166,7 @@ export default function Services() {
             </button>
           </div>
 
-          <div
-            className="carousel-counter"
-            aria-live="polite"
-            aria-label={`Card ${activeIndex + 1} of ${TOTAL}`}
-          >
-            {pad(activeIndex + 1)}&nbsp;/&nbsp;{pad(TOTAL)}
-          </div>
+
         </div>
       </div>
     </section>

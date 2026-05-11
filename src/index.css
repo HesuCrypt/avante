@@ -25,10 +25,18 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 96px;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     @apply bg-white text-slate-900 font-sans antialiased;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    line-height: 1.1;
   }
 
   * {
@@ -90,10 +98,10 @@ html {
 }
 
 .carousel-component {
-  width: min(1320px, calc(100% - 2.5rem));
-  height: clamp(500px, 72vh, 720px);
+  width: 100vw;
+  height: clamp(500px, 75vh, 800px);
   position: relative;
-  perspective: 1350px;
+  perspective: 2500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,11 +126,11 @@ html {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(52vw, 760px);
-  height: min(60vh, 470px);
+  width: min(58vw, 900px);
+  height: min(65vh, 520px);
   transform-style: preserve-3d;
-  margin-left: calc(min(52vw, 760px) * -0.5);
-  margin-top: calc(min(60vh, 470px) * -0.5);
+  margin-left: calc(min(58vw, 900px) * -0.5);
+  margin-top: calc(min(65vh, 520px) * -0.5);
   overflow: visible;
 }
 
@@ -301,8 +309,13 @@ html {
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -321,19 +334,22 @@ html {
 
 /* ── Image Optimization & Placeholders ─────────────────────────────────── */
 .image-placeholder {
-  background: linear-gradient(
-    90deg,
-    #f3f4f6 25%,
-    #e5e7eb 50%,
-    #f3f4f6 75%
-  );
+  background: linear-gradient(90deg,
+      #f3f4f6 25%,
+      #e5e7eb 50%,
+      #f3f4f6 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite linear;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .img-optimized {

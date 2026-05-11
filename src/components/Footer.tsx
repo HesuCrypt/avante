@@ -2,17 +2,17 @@ import { ArrowUpRight, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-avante-dark text-white pt-14 md:pt-20 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-12 xl:gap-16 mb-14">
-          <div className="xl:col-span-2">
+    <footer className="bg-avante-dark text-white min-h-screen flex flex-col justify-between py-8 md:py-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 w-full flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-24">
+          <div className="xl:col-span-8 flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-6 text-sm font-semibold uppercase tracking-wide mb-10 text-blue-100">
               <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Instagram</a>
               <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
               <span className="text-white font-black tracking-[0.18em]">Avante Digital Solutions</span>
             </div>
 
-            <h2 className="text-2xl md:text-6xl font-black leading-[0.95] max-w-3xl mb-10">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.95] max-w-4xl mb-12 uppercase">
               THE BEST CLIENT RELATIONSHIPS START WITH A GOOD CONVERSATION.
             </h2>
 
@@ -30,8 +30,10 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8">
-            <p className="text-blue-100 font-semibold mb-4">Subscribe to Newsletter</p>
+          <div className="xl:col-span-4 flex flex-col justify-center">
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col h-full justify-between">
+              <div>
+                <p className="text-white font-bold text-lg mb-4">Subscribe to Newsletter</p>
             <p className="text-blue-200/85 text-sm mb-6">Always fresh updates. Unsubscribe anytime.</p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
@@ -59,10 +61,14 @@ export default function Footer() {
                 </a>
               ))}
             </div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs md:text-sm text-blue-100">
+      <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-8 mt-12 md:mt-0">
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs md:text-sm text-blue-100/70">
           <p>&copy; {new Date().getFullYear()} Avante Digital Solutions. All rights reserved.</p>
           <p>Made for modern digital brands.</p>
         </div>

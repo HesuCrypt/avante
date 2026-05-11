@@ -17,7 +17,7 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-sm font-bold text-avante-blue uppercase tracking-widest mb-2">
-              Who We Are
+              About Us
             </h2>
             <h3 className="text-2xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               Driving Growth Through <br />

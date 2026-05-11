@@ -91,7 +91,7 @@ export default function WhyChooseUs() {
                 >
                   <div className="text-4xl md:text-5xl font-extrabold text-white mb-3">
                     {inView ? (
-                      <CountUp end={stat.value} duration={2.5} suffix={stat.suffix} />
+                      <CountUp end={stat.value} duration={5} suffix={stat.suffix} />
                     ) : (
                       <span>0{stat.suffix}</span>
                     )}

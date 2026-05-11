@@ -56,19 +56,27 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMTAsIDYxLCAxNDUsIDAuMDUpIi8+PC9zdmc+')] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
       </div>
 
-      {/* Content — centered */}
-      <div className="relative z-10 flex-1 flex items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-4xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]"
-        >
-          <span className="gradient-text">Commerce</span>{" "}
-          <span>that</span>
-          <br />
-          <span>Connects</span>
-        </motion.h1>
+      {/* Content — left aligned with huge text */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 sm:px-6 lg:px-12">
+        <div className="w-full max-w-6xl relative">
+
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-full"
+          >
+            <div className="text-[14vw] md:text-[11rem] lg:text-[13rem] font-extralight tracking-tighter leading-[0.8] text-avante-blue -ml-2 md:-ml-4">
+              Commerce
+            </div>
+            <div className="w-full mt-2 md:mt-4 pl-[10%] md:pl-[15%]">
+              <div className="text-[10vw] md:text-[8rem] lg:text-[9rem] font-extralight tracking-tighter leading-[0.8] text-slate-800 italic whitespace-nowrap">
+                that connects.
+              </div>
+            </div>
+          </motion.h1>
+        </div>
       </div>
 
       {/* Bottom bar — "Check out our services" */}

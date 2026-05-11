@@ -5,12 +5,11 @@ import { Link } from "react-scroll";
 import { createPortal } from "react-dom";
 
 const navLinks = [
-  { name: "Home", to: "hero" },
+  { name: "Home", to: "" },
   { name: "Services", to: "services" },
   { name: "Partners", to: "partners" },
-  { name: "About", to: "about" },
+  { name: "About Us", to: "about", isPage: true },
   { name: "Why Us", to: "why-us" },
-  { name: "Contact", to: "contact" },
 ];
 
 const menuVariants = {
@@ -158,17 +157,47 @@ export default function Navbar() {
                         variants={menuItemVariants}
                         transition={{ duration: 0.24 }}
                       >
-                        <Link
-                          to={link.to}
-                          smooth={true}
-                          duration={500}
-                          offset={-70}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
-                        >
-                          {link.name}
-                          <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
-                        </Link>
+                        {link.isPage || link.to === "" ? (
+                          <a
+                            href={`#${link.to}`}
+                            onClick={(e) => {
+                              setIsMenuOpen(false);
+                              if (link.to === "") {
+                                if (window.location.hash.includes("about")) {
+                                  // Let default hash change happen to return to home
+                                } else {
+                                  e.preventDefault();
+                                  window.scrollTo({ top: 0, behavior: "smooth" });
+                                }
+                              }
+                            }}
+                            className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
+                          >
+                            {link.name}
+                            <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
+                          </a>
+                        ) : (
+                          <Link
+                            to={link.to}
+                            smooth={true}
+                            duration={500}
+                            offset={-70}
+                            onClick={() => {
+                              setIsMenuOpen(false);
+                              if (window.location.hash.includes("about")) {
+                                window.location.hash = "";
+                                setTimeout(() => {
+                                  const el = document.getElementById(link.to);
+                                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                                }, 100);
+                              }
+                            }}
+                            className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
+                          >
+                            {link.name}
+                            <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
+                          </Link>
+                        )}
                       </motion.div>
                     ))}
                   </motion.nav>
