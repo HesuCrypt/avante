@@ -9,6 +9,7 @@ const navLinks = [
   { name: "Services", to: "services" },
   { name: "Partners", to: "partners" },
   { name: "About Us", to: "about", isPage: true },
+  { name: "Careers", to: "career", isPage: true },
   { name: "Why Us", to: "why-us" },
 ];
 
@@ -163,7 +164,7 @@ export default function Navbar() {
                             onClick={(e) => {
                               setIsMenuOpen(false);
                               if (link.to === "") {
-                                if (window.location.hash.includes("about")) {
+                                if (window.location.hash !== "" && window.location.hash !== "#") {
                                   // Let default hash change happen to return to home
                                 } else {
                                   e.preventDefault();
@@ -184,7 +185,7 @@ export default function Navbar() {
                             offset={-70}
                             onClick={() => {
                               setIsMenuOpen(false);
-                              if (window.location.hash.includes("about")) {
+                              if (window.location.hash !== "" && window.location.hash !== "#") {
                                 window.location.hash = "";
                                 setTimeout(() => {
                                   const el = document.getElementById(link.to);

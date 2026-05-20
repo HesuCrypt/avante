@@ -1,76 +1,119 @@
-import { ArrowUpRight, Instagram, Linkedin } from "lucide-react";
+import { ArrowUpRight, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-avante-dark text-white min-h-screen flex flex-col justify-between py-8 md:py-12">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 w-full flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-24">
-          <div className="xl:col-span-8 flex flex-col justify-center">
-            <div className="flex flex-wrap items-center gap-6 text-sm font-semibold uppercase tracking-wide mb-10 text-blue-100">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Instagram</a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-              <span className="text-white font-black tracking-[0.18em]">Avante Digital Solutions</span>
+    <footer className="bg-avante-dark text-white min-h-[100svh] flex flex-col pt-16 lg:pt-24 pb-8 relative overflow-hidden justify-between">
+      {/* Background Decor - Refined for depth */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,rgba(10,61,145,0.15),transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-12 items-center">
+          
+          {/* Main Content Area */}
+          <div className="lg:col-span-7 flex flex-col h-full justify-center">
+            {/* Top Navigation / Brand - Matches IntroSplash Tracking */}
+            <div className="flex flex-wrap items-center gap-x-10 gap-y-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.4em] mb-16 text-blue-300/60">
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-white hover:text-blue-400 transition-colors">Instagram</a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-white hover:text-blue-400 transition-colors">LinkedIn</a>
+              <div className="h-px w-12 bg-white/10 hidden sm:block"></div>
+              <span className="text-white tracking-[0.5em]">Avante Digital</span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.95] max-w-4xl mb-12 uppercase">
-              THE BEST CLIENT RELATIONSHIPS START WITH A GOOD CONVERSATION.
+            {/* Hero Heading - Optimized for stable placement */}
+            <h2 className="text-[clamp(2rem,6vw,4rem)] lg:text-[clamp(3rem,4.5vw,5rem)] font-black leading-[0.9] mb-12 lg:mb-16 uppercase tracking-tighter max-w-5xl text-white">
+              The best client<br />
+              relationships<br />
+              start with a good<br />
+              conversation.
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base">
-              <div>
-                <p className="text-blue-200 mb-3 font-semibold">Head Office</p>
-                <p className="text-blue-50">+63 917 000 1234</p>
-                <p className="text-blue-50">hello@avantedigital.com</p>
+            {/* Contact Info Grid - Stable Bottom Alignment */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-auto">
+              <div className="group cursor-default">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-5 h-px bg-avante-blue group-hover:w-10 transition-all duration-500" />
+                  <p className="text-blue-400/60 text-[10px] uppercase font-bold tracking-[0.3em]">Head Office</p>
+                </div>
+                <div className="space-y-2 pl-8">
+                  <div className="flex items-center gap-3 text-lg font-medium group/item cursor-pointer">
+                    <Phone className="w-4 h-4 text-avante-blue" />
+                    <span>+63 917 000 1234</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-blue-100/70 hover:text-white transition-colors cursor-pointer">
+                    <Mail className="w-4 h-4 text-avante-blue" />
+                    <span>hello@avantedigital.com</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-blue-200 mb-3 font-semibold">Address</p>
-                <p className="text-blue-50">Makati, Metro Manila</p>
-                <p className="text-blue-50">Philippines</p>
+
+              <div className="group cursor-default">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-5 h-px bg-avante-blue group-hover:w-10 transition-all duration-500" />
+                  <p className="text-blue-400/60 text-[10px] uppercase font-bold tracking-[0.3em]">Location</p>
+                </div>
+                <div className="space-y-2 pl-8">
+                  <div className="flex items-start gap-3 text-lg font-medium">
+                    <MapPin className="w-4 h-4 text-avante-blue mt-1.5" />
+                    <span>Makati, Metro Manila<br /><span className="text-sm text-blue-100/50 font-normal">Philippines, 1200</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Newsletter Section - Fixed Width for Stability */}
+          <div className="lg:col-span-5 h-full flex flex-col justify-start lg:pl-12">
+            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[3rem] p-10 md:p-14 relative group transition-all duration-700 hover:border-white/20">
+              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-avante-blue/5 to-transparent rounded-[3rem] pointer-events-none" />
+              
+              <div className="relative z-10">
+                <h3 className="text-3xl font-bold mb-4 tracking-tight">Stay Connected</h3>
+                <p className="text-blue-100/60 text-base mb-10 leading-relaxed max-w-sm">Join our network for exclusive digital insights and project updates.</p>
+
+                <form className="space-y-5 mb-12" onSubmit={(e) => e.preventDefault()}>
+                  <div className="relative group/input">
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      className="w-full rounded-2xl border border-white/5 bg-white/5 px-8 py-5 text-base placeholder:text-white/20 text-white outline-none focus:border-white/20 focus:bg-white/[0.08] transition-all duration-500"
+                    />
+                  </div>
+                  <button className="w-full group/btn relative overflow-hidden inline-flex items-center justify-center gap-3 rounded-2xl bg-white text-avante-dark px-10 py-5 text-base font-bold hover:bg-avante-blue hover:text-white transition-all duration-500">
+                    <span className="relative z-10">Subscribe Now</span>
+                    <ArrowUpRight className="w-5 h-5 relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-500" />
+                  </button>
+                </form>
+
+                <div className="flex gap-5">
+                  {[Instagram, Linkedin].map((Icon, index) => (
+                    <a
+                      key={index}
+                      href={index === 0 ? "https://instagram.com" : "https://linkedin.com"}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-white/40 hover:bg-white hover:text-avante-dark hover:scale-105 transition-all duration-500"
+                    >
+                      <Icon className="w-6 h-6" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="xl:col-span-4 flex flex-col justify-center">
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col h-full justify-between">
-              <div>
-                <p className="text-white font-bold text-lg mb-4">Subscribe to Newsletter</p>
-            <p className="text-blue-200/85 text-sm mb-6">Always fresh updates. Unsubscribe anytime.</p>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
-              <input
-                type="email"
-                placeholder="Your email address..."
-                className="flex-1 rounded-full border border-white/15 bg-white/10 px-4 py-3 text-sm placeholder:text-blue-100/80 text-white outline-none focus:border-blue-300 min-w-0"
-              />
-              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-avante-blue px-5 py-3 text-sm font-semibold hover:bg-blue-500 transition-colors w-full sm:w-auto">
-                Sign Up <ArrowUpRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex gap-3">
-              {[Instagram, Linkedin].map((Icon, index) => (
-                <a
-                  key={index}
-                  href={index === 0 ? "https://instagram.com" : "https://linkedin.com"}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={index === 0 ? "Instagram" : "LinkedIn"}
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-blue-100 hover:bg-avante-blue hover:text-white transition-all"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-8 mt-12 md:mt-0">
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs md:text-sm text-blue-100/70">
-          <p>&copy; {new Date().getFullYear()} Avante Digital Solutions. All rights reserved.</p>
-          <p>Made for modern digital brands.</p>
+      {/* Bottom Bar - Ultra Clean */}
+      <div className="max-w-[1400px] mx-auto w-full px-6 sm:px-12 mt-12 lg:mt-auto">
+        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase font-bold tracking-[0.3em] text-white/20">
+          <p className="hover:text-white/40 transition-colors">&copy; {new Date().getFullYear()} Avante Digital Solutions</p>
+          <div className="flex items-center gap-10">
+            <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white/60 transition-colors">Terms</a>
+            <p className="text-white/10 hidden lg:block tracking-[0.5em]">Digital Excellence</p>
+          </div>
         </div>
       </div>
     </footer>
