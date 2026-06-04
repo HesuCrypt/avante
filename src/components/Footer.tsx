@@ -110,8 +110,8 @@ export default function Footer() {
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase font-bold tracking-[0.3em] text-white/20">
           <p className="hover:text-white/40 transition-colors">&copy; {new Date().getFullYear()} Avante Digital Solutions</p>
           <div className="flex items-center gap-10">
-            <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white/60 transition-colors">Terms</a>
+            <a href="#privacy" className="hover:text-white/60 transition-colors">Privacy</a>
+            <a href="#terms" className="hover:text-white/60 transition-colors">Terms</a>
             <p className="text-white/10 hidden lg:block tracking-[0.5em]">Digital Excellence</p>
           </div>
         </div>

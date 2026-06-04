@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { ArrowUpRight, Plus, X } from "lucide-react";
 import { Link } from "react-scroll";
@@ -7,10 +7,12 @@ import { createPortal } from "react-dom";
 const navLinks = [
   { name: "Home", to: "" },
   { name: "Services", to: "services" },
+  { name: "Vision", to: "vision" },
   { name: "Partners", to: "partners" },
+  { name: "Why Us", to: "why-us" },
+  { name: "Contact Us", to: "contact" },
   { name: "About Us", to: "about", isPage: true },
   { name: "Careers", to: "career", isPage: true },
-  { name: "Why Us", to: "why-us" },
 ];
 
 const menuVariants = {
@@ -26,7 +28,54 @@ const menuItemVariants = {
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const sectionIds = ["hero", "services", "vision", "partners", "why-us", "contact"];
+    const observers = sectionIds.map(id => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        {
+          rootMargin: "-20% 0px -60% 0px",
+        }
+      );
+      observer.observe(el);
+      return { observer, el };
+    });
+
+    return () => {
+      observers.forEach(obs => {
+        if (obs) obs.observer.unobserve(obs.el);
+      });
+    };
+  }, []);
+
+  const scrollToHero = () => {
+    const hero = document.getElementById("hero");
+    if (hero) {
+      hero.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleBrandClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (window.location.hash !== "" && window.location.hash !== "#") {
+      window.location.hash = "";
+      window.setTimeout(scrollToHero, 50);
+      return;
+    }
+    scrollToHero();
+  };
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -71,16 +120,16 @@ export default function Navbar() {
       transition={{ duration: 0.5 }}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-end relative">
-        <Link
-          to="hero"
-          smooth={true}
-          duration={500}
+        <a
+          href="#"
+          onClick={handleBrandClick}
           className="cursor-pointer flex items-center gap-2 absolute left-1/2 -translate-x-1/2"
+          aria-label="Go to home"
         >
           <span className={`font-black text-lg md:text-xl tracking-[0.22em] uppercase ${isScrolled ? "text-slate-900" : "text-avante-blue"}`}>
             Avante Digital
           </span>
-        </Link>
+        </a>
 
         <motion.button
           onClick={() => setIsMenuOpen(true)}
@@ -152,55 +201,69 @@ export default function Navbar() {
                     animate="open"
                     exit="closed"
                   >
-                    {navLinks.map((link) => (
-                      <motion.div
-                        key={link.name}
-                        variants={menuItemVariants}
-                        transition={{ duration: 0.24 }}
-                      >
-                        {link.isPage || link.to === "" ? (
-                          <a
-                            href={`#${link.to}`}
-                            onClick={(e) => {
-                              setIsMenuOpen(false);
-                              if (link.to === "") {
-                                if (window.location.hash !== "" && window.location.hash !== "#") {
-                                  // Let default hash change happen to return to home
-                                } else {
+                    {navLinks.map((link) => {
+                      const isActive = link.to === ""
+                        ? (activeSection === "hero" || activeSection === "")
+                        : (activeSection === link.to);
+                      const linkClass = `flex items-center justify-between text-[clamp(1.5rem,8vw,3.5rem)] md:text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight transition-all duration-300 cursor-pointer ${
+                        isActive
+                          ? "text-slate-900 border-l-4 border-avante-blue pl-4"
+                          : "text-avante-blue/90 hover:text-avante-dark hover:pl-2"
+                      }`;
+
+                      return (
+                        <motion.div
+                          key={link.name}
+                          variants={menuItemVariants}
+                          transition={{ duration: 0.24 }}
+                        >
+                          {link.isPage || link.to === "" ? (
+                            <a
+                              href={`#${link.to}`}
+                              onClick={(e) => {
+                                setIsMenuOpen(false);
+                                if (link.to === "") {
+                                  if (window.location.hash !== "" && window.location.hash !== "#") {
+                                    // Let default hash change happen to return to home
+                                  } else {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                  }
+                                } else if (window.location.hash === `#${link.to}`) {
                                   e.preventDefault();
                                   window.scrollTo({ top: 0, behavior: "smooth" });
                                 }
-                              }
-                            }}
-                            className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
-                          >
-                            {link.name}
-                            <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
-                          </a>
-                        ) : (
-                          <Link
-                            to={link.to}
-                            smooth={true}
-                            duration={500}
-                            offset={-70}
-                            onClick={() => {
-                              setIsMenuOpen(false);
-                              if (window.location.hash !== "" && window.location.hash !== "#") {
-                                window.location.hash = "";
-                                setTimeout(() => {
-                                  const el = document.getElementById(link.to);
-                                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                                }, 100);
-                              }
-                            }}
-                            className="flex items-center justify-between text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight text-avante-blue/90 hover:text-avante-dark transition-colors cursor-pointer"
-                          >
-                            {link.name}
-                            <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
-                          </Link>
-                        )}
-                      </motion.div>
-                    ))}
+                              }}
+                              className={linkClass}
+                            >
+                              {link.name}
+                              <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
+                            </a>
+                          ) : (
+                            <Link
+                              to={link.to}
+                              smooth={true}
+                              duration={500}
+                              offset={-70}
+                              onClick={() => {
+                                setIsMenuOpen(false);
+                                if (window.location.hash !== "" && window.location.hash !== "#") {
+                                  window.location.hash = "";
+                                  setTimeout(() => {
+                                    const el = document.getElementById(link.to);
+                                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                                  }, 100);
+                                }
+                              }}
+                              className={linkClass}
+                            >
+                              {link.name}
+                              <ArrowUpRight className="w-5 h-5 md:w-7 md:h-7 shrink-0" />
+                            </Link>
+                          )}
+                        </motion.div>
+                      );
+                    })}
                   </motion.nav>
 
                   <motion.div

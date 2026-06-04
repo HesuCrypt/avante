@@ -70,10 +70,13 @@ export default function Contact() {
                     name="user_name"
                     id="user_name"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
                     placeholder="John Doe"
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
+                  <p className="mt-1 text-xs text-red-500 scale-y-0 origin-top peer-[&:user-invalid]:scale-y-100 transition-transform duration-200">
+                    Please enter your name.
+                  </p>
                 </div>
                 <div>
                   <label htmlFor="user_email" className="block text-sm font-medium text-slate-700 mb-1">
@@ -84,10 +87,13 @@ export default function Contact() {
                     name="user_email"
                     id="user_email"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
                     placeholder="john@company.com"
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
+                  <p className="mt-1 text-xs text-red-500 scale-y-0 origin-top peer-[&:user-invalid]:scale-y-100 transition-transform duration-200">
+                    Please enter a valid email address.
+                  </p>
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
@@ -98,10 +104,13 @@ export default function Contact() {
                     id="message"
                     required
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all resize-none input-val peer"
                     placeholder="Tell us about your project..."
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
+                  <p className="mt-1 text-xs text-red-500 scale-y-0 origin-top peer-[&:user-invalid]:scale-y-100 transition-transform duration-200">
+                    Please write a short message.
+                  </p>
                 </div>
 
                 <button

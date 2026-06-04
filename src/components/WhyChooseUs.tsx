@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import Partners from "./Partners";
 
 const stats = [
   { label: "Campaigns Managed", value: 500, suffix: "+" },
@@ -38,6 +39,11 @@ export default function WhyChooseUs() {
     <section id="why-us" className="py-24 bg-avante-dark text-white relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/20 to-transparent pointer-events-none" />
+      
+      {/* Logo Marquee */}
+      <div className="mb-16 md:mb-24">
+        <Partners />
+      </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">

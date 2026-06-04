@@ -149,7 +149,7 @@ export default function Services() {
                     <div className="card-text">
                       <h2 className="heading">{slide.title}</h2>
                       <p className="card-subtitle">{slide.subtitle}</p>
-                      <a className="btn-cta" href="#contact">learn more</a>
+                      <a className="btn-cta" href={`#service-${slide.slug}`}>learn more</a>
                     </div>
                   </div>
                 </div>

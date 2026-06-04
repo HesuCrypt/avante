@@ -1,40 +1,78 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { PARTNERS } from "../constants/partners";
+import { PARTNERS, Partner } from "../constants/partners";
 
 export default function Partners() {
-  return (
-    <section id="partners" className="py-14 md:py-20 bg-white">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 md:mb-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-none"
-          >
-            Trusted by
-          </motion.h2>
-          <div className="w-12 h-[3px] bg-avante-blue mx-auto mt-4 rounded-full" />
-        </div>
+  const [hoveredName, setHoveredName] = useState<string | null>(null);
 
-        {/* Vertical list of partners */}
-        <div className="flex flex-col items-center gap-4 md:gap-5">
-          {PARTNERS.map((partner, index) => (
-            <motion.div
-              key={partner.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.06, duration: 0.4 }}
-              className="w-full text-center"
-            >
-              <span className="text-xl md:text-2xl font-extrabold tracking-[0.15em] text-avante-blue uppercase">
-                {partner.name}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+  const getHoverColor = (partner: Partner) => {
+    if (partner.name === "ISSY" || partner.name === "BLANC NUE") {
+      return "#FFFFFF";
+    }
+    return partner.color;
+  };
+
+  return (
+    <div id="partners" className="py-6 overflow-hidden relative z-20">
+      {/* Subtle section label */}
+      <div className="text-center mb-5">
+        <span className="text-xs font-bold text-blue-400/60 uppercase tracking-[0.25em] select-none">
+          Trusted by
+        </span>
       </div>
-    </section>
+
+      {/* Infinite Logo Marquee */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="logo-marquee-container logo-marquee-mask py-2"
+      >
+        <div className="flex flex-row flex-nowrap w-max animate-logo-marquee hover:[animation-play-state:paused] will-change-transform">
+          {/* First track set */}
+          <div className="flex shrink-0 items-center gap-4 md:gap-6 pr-4 md:pr-6">
+            {PARTNERS.map((partner) => (
+              <div
+                key={partner.name}
+                onMouseEnter={() => setHoveredName(partner.name)}
+                onMouseLeave={() => setHoveredName(null)}
+                className="flex items-center justify-center px-5 py-2.5 md:px-7 md:py-3.5 bg-white/[0.02] border border-white/5 rounded-full hover:bg-white/[0.08] hover:border-white/15 transition-all duration-300 transform hover:-translate-y-0.5 select-none shrink-0 cursor-pointer"
+              >
+                <span
+                  className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300"
+                  style={{
+                    color: hoveredName === partner.name ? getHoverColor(partner) : "rgba(255, 255, 255, 0.5)"
+                  }}
+                >
+                  {partner.name}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Second track set (exact duplicate for seamless loop) */}
+          <div className="flex shrink-0 items-center gap-4 md:gap-6 pr-4 md:pr-6" aria-hidden="true">
+            {PARTNERS.map((partner) => (
+              <div
+                key={`${partner.name}-dup`}
+                onMouseEnter={() => setHoveredName(partner.name)}
+                onMouseLeave={() => setHoveredName(null)}
+                className="flex items-center justify-center px-5 py-2.5 md:px-7 md:py-3.5 bg-white/[0.02] border border-white/5 rounded-full hover:bg-white/[0.08] hover:border-white/15 transition-all duration-300 transform hover:-translate-y-0.5 select-none shrink-0 cursor-pointer"
+              >
+                <span
+                  className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300"
+                  style={{
+                    color: hoveredName === partner.name ? getHoverColor(partner) : "rgba(255, 255, 255, 0.5)"
+                  }}
+                >
+                  {partner.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
