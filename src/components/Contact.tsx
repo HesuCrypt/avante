@@ -70,7 +70,7 @@ export default function Contact() {
                     name="user_name"
                     id="user_name"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200/80 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
                     placeholder="John Doe"
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
@@ -87,7 +87,7 @@ export default function Contact() {
                     name="user_email"
                     id="user_email"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200/80 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all input-val peer"
                     placeholder="john@company.com"
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
@@ -104,7 +104,7 @@ export default function Contact() {
                     id="message"
                     required
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all resize-none input-val peer"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200/80 focus:ring-2 focus:ring-avante-blue focus:border-transparent outline-none transition-all resize-none input-val peer"
                     placeholder="Tell us about your project..."
                     onChange={() => status !== "idle" && setStatus("idle")}
                   />
@@ -116,7 +116,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className={`w-full py-4 rounded-lg font-bold text-white transition-all flex items-center justify-center gap-2 ${
+                  className={`w-full py-4 rounded-2xl font-bold text-white transition-all flex items-center justify-center gap-2 ${
                     status === "success"
                       ? "bg-green-500 hover:bg-green-600"
                       : status === "error"

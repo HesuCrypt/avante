@@ -35,7 +35,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
         <h3 className="text-2xl font-semibold text-slate-800 mb-4">Service not found</h3>
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-slate-900 text-white rounded-2xl font-medium hover:bg-slate-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Services
         </button>
@@ -99,7 +99,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-[4/3] bg-slate-100 rounded-2xl overflow-hidden shadow-xl border border-slate-100">
+            <div className="aspect-[4/3] bg-slate-100 rounded-2xl overflow-hidden shadow-xl border border-slate-200/60">
               <img
                 src={image}
                 alt={title}
@@ -134,7 +134,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
               </div>
             </div>
 
-            <div className="p-6 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200/60">
               <div className="flex items-start gap-4">
                 <Sparkles className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
                 <div>
@@ -159,15 +159,15 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-2">How It Works</h2>
           <p className="text-slate-500 mb-10">Our proven process to deliver exceptional results</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {process.map((step, idx) => (
-              <div key={idx} className="relative">
-                <div className={`p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300`}>
+              <div key={idx} className="relative h-full">
+                <div className={`h-full p-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col`}>
                   <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${playfulDetails.gradient} flex items-center justify-center text-white text-xl font-bold mb-4`}>
                     {step.step}
                   </div>
                   <h3 className="font-semibold text-slate-900 mb-2">{step.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed flex-1">{step.description}</p>
                 </div>
                 {idx < process.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2">
@@ -188,11 +188,11 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-2">What You'll Get</h2>
           <p className="text-slate-500 mb-8">Everything included in our service</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
             {deliverables.map((deliverable, idx) => (
-              <div key={idx} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-slate-100">
+              <div key={idx} className="h-full flex items-start gap-4 p-5 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
                 <Package className={`w-6 h-6 mt-0.5 ${playfulDetails.iconColor}`} />
-                <div>
+                <div className="flex-1">
                   <h3 className="font-semibold text-slate-900 mb-1">{deliverable.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{deliverable.description}</p>
                 </div>
@@ -210,19 +210,19 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Core Capabilities</h2>
           <p className="text-slate-500 mb-8">Everything you need to drive real results</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {features.map((feature, idx) => (
               <div
                 key={idx}
-                className="p-6 bg-white rounded-xl border border-slate-200 hover:border-avante-blue/30 hover:shadow-xl transition-all duration-300"
+                className="h-full p-6 bg-white rounded-2xl border border-slate-200/80 hover:border-avante-blue/30 hover:shadow-xl transition-all duration-300 flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${playfulDetails.gradient} flex items-center justify-center`}>
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${playfulDetails.gradient} flex items-center justify-center`}>
                     <ChevronRight className="w-5 h-5 text-white" />
                   </div>
                   <h3 className="font-semibold text-slate-900">Feature {idx + 1}</h3>
                 </div>
-                <p className="text-slate-600 text-sm leading-relaxed">{feature}</p>
+                <p className="text-slate-600 text-sm leading-relaxed flex-1">{feature}</p>
               </div>
             ))}
           </div>
@@ -237,11 +237,11 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
         >
           <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center">What Our Clients Say</h2>
           <p className="text-slate-500 mb-10 text-center">Real results from real clients</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
             {testimonials.map((testimonial, idx) => (
-              <div key={idx} className="p-8 bg-slate-50 rounded-2xl border border-slate-100">
+              <div key={idx} className="h-full p-8 bg-slate-50 rounded-2xl border border-slate-200/60 flex flex-col">
                 <MessageCircle className={`w-8 h-8 ${playfulDetails.iconColor} mb-4 opacity-50`} />
-                <p className="text-slate-700 text-lg leading-relaxed mb-6 italic">"{testimonial.quote}"</p>
+                <p className="text-slate-700 text-lg leading-relaxed mb-6 italic flex-1">"{testimonial.quote}"</p>
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${playfulDetails.gradient} flex items-center justify-center text-white font-bold text-lg`}>
                     {testimonial.author.charAt(0)}
@@ -267,7 +267,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
           <p className="text-slate-500 mb-10 text-center">Got questions? We've got answers</p>
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="border border-slate-200 rounded-xl overflow-hidden">
+              <div key={idx} className="border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                   className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
@@ -351,7 +351,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition-all duration-300 hover:shadow-lg"
+            className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-4 rounded-2xl font-semibold text-lg hover:bg-slate-100 transition-all duration-300 hover:shadow-lg"
           >
             Get Started Today
             <ChevronRight className="w-5 h-5" />

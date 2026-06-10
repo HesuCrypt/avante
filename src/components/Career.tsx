@@ -195,7 +195,7 @@ export default function Career() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
               onClick={() => setActiveJob(job)}
-              className="group bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-100 transition-all duration-300 cursor-pointer relative overflow-hidden"
+              className="group bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-avante-blue/25 transition-all duration-300 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 opacity-0 group-hover:opacity-100" />
               <div className="relative z-10">
@@ -338,7 +338,7 @@ export default function Career() {
                 </div>
 
                 {/* CTA */}
-                <div className="pt-4 border-t border-slate-100">
+                <div className="pt-4 border-t border-slate-200/60">
                   <a
                     href="mailto:careers@avantedigital.com"
                     className="w-full inline-flex items-center justify-center gap-2 py-3.5 bg-avante-blue hover:bg-avante-dark text-white rounded-xl font-bold text-sm transition-all shadow-md"

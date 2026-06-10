@@ -1,8 +1,9 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent, type WheelEvent, type TouchEvent } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
-import { ArrowUpRight, Plus, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Plus, X } from "lucide-react";
 import { Link } from "react-scroll";
 import { createPortal } from "react-dom";
+import { EXPERTISE_SLIDES } from "../constants/expertise";
 
 const navLinks = [
   { name: "Home", to: "" },
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [servicesExpanded, setServicesExpanded] = useState(false);
   const { scrollY } = useScroll();
 
   useEffect(() => {
@@ -80,20 +82,44 @@ export default function Navbar() {
   useEffect(() => {
     if (isMenuOpen) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const scrollTop = window.scrollY;
+      document.body.dataset.scrollLockY = String(scrollTop);
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollTop}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
       document.body.dataset.menuOpen = "true";
       if (scrollbarWidth > 0) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
     } else {
+      const lockedScrollY = Number(document.body.dataset.scrollLockY || "0");
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.paddingRight = "";
       delete document.body.dataset.menuOpen;
+      delete document.body.dataset.scrollLockY;
+      window.scrollTo({ top: lockedScrollY, behavior: "instant" as ScrollBehavior });
     }
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.paddingRight = "";
       delete document.body.dataset.menuOpen;
+      delete document.body.dataset.scrollLockY;
     };
   }, [isMenuOpen]);
 
@@ -109,6 +135,10 @@ export default function Navbar() {
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
   });
+
+  const stopOverlayScrollPropagation = (event: WheelEvent<HTMLElement> | TouchEvent<HTMLElement>) => {
+    event.stopPropagation();
+  };
 
   return (
     <motion.nav
@@ -126,7 +156,7 @@ export default function Navbar() {
           className="cursor-pointer flex items-center gap-2 absolute left-1/2 -translate-x-1/2"
           aria-label="Go to home"
         >
-          <span className={`font-black text-lg md:text-xl tracking-[0.22em] uppercase ${isScrolled ? "text-slate-900" : "text-avante-blue"}`}>
+          <span className={`font-black text-base sm:text-lg md:text-xl tracking-[0.14em] sm:tracking-[0.22em] uppercase text-center whitespace-nowrap ${isScrolled ? "text-slate-900" : "text-avante-blue"}`}>
             Avante Digital
           </span>
         </a>
@@ -176,10 +206,12 @@ export default function Navbar() {
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "spring", stiffness: 250, damping: 28 }}
-                  className="absolute right-0 top-0 z-[201] h-full w-full sm:w-[75%] lg:w-[42rem] bg-avante-light text-avante-dark rounded-l-3xl p-6 md:p-10 flex flex-col border-l border-slate-300 shadow-[0_30px_90px_rgba(5,28,69,0.32)] overflow-hidden"
+                  onWheel={stopOverlayScrollPropagation}
+                  onTouchMove={stopOverlayScrollPropagation}
+                  className="absolute right-0 top-0 z-[201] h-full w-full sm:w-[75%] lg:w-[42rem] bg-avante-light text-avante-dark rounded-l-3xl p-5 md:p-10 flex flex-col border-l border-slate-300 shadow-[0_30px_90px_rgba(5,28,69,0.32)] overflow-hidden overscroll-contain"
                 >
                   <motion.div
-                    className="flex items-center justify-between mb-8 md:mb-10"
+                    className="flex items-center justify-between mb-6 md:mb-8 shrink-0"
                     initial={{ opacity: 0, y: -12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.22, delay: 0.1 }}
@@ -195,7 +227,7 @@ export default function Navbar() {
                   </motion.div>
 
                   <motion.nav
-                    className="space-y-3 md:space-y-5 mb-10 overflow-hidden"
+                    className="flex-1 min-h-0 overflow-y-auto pr-1 md:pr-3 space-y-2 md:space-y-4 pb-8"
                     variants={menuVariants}
                     initial="closed"
                     animate="open"
@@ -205,7 +237,7 @@ export default function Navbar() {
                       const isActive = link.to === ""
                         ? (activeSection === "hero" || activeSection === "")
                         : (activeSection === link.to);
-                      const linkClass = `flex items-center justify-between text-[clamp(1.5rem,8vw,3.5rem)] md:text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight transition-all duration-300 cursor-pointer ${
+                      const linkClass = `flex items-center justify-between gap-4 text-[clamp(1.25rem,7vw,3rem)] md:text-[clamp(1.5rem,8vw,4rem)] leading-[0.95] font-black uppercase tracking-tight transition-all duration-300 cursor-pointer ${
                         isActive
                           ? "text-slate-900 border-l-4 border-avante-blue pl-4"
                           : "text-avante-blue/90 hover:text-avante-dark hover:pl-2"
@@ -216,8 +248,58 @@ export default function Navbar() {
                           key={link.name}
                           variants={menuItemVariants}
                           transition={{ duration: 0.24 }}
+                          className="border-b border-avante-blue/10 pb-2 md:pb-3"
                         >
-                          {link.isPage || link.to === "" ? (
+                          {link.to === "services" ? (
+                            <div className="space-y-4">
+                              <button
+                                type="button"
+                                onClick={() => setServicesExpanded((prev) => !prev)}
+                                className={linkClass}
+                                aria-expanded={servicesExpanded}
+                              >
+                                <span>{link.name}</span>
+                                <ChevronDown
+                                  className={`w-6 h-6 md:w-7 md:h-7 shrink-0 transition-transform duration-300 ${
+                                    servicesExpanded ? "rotate-180" : ""
+                                  }`}
+                                />
+                              </button>
+
+                              <AnimatePresence initial={false}>
+                                {servicesExpanded && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.28, ease: "easeInOut" }}
+                                    className="overflow-hidden"
+                                  >
+                                    <div className="pl-4 md:pl-6 space-y-2 pt-1">
+                                      <a
+                                        href="#services"
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="block text-xs md:text-sm font-black uppercase tracking-[0.28em] text-avante-blue/70 hover:text-avante-dark transition-colors"
+                                      >
+                                        All Services
+                                      </a>
+                                      {EXPERTISE_SLIDES.map((service) => (
+                                        <a
+                                          key={service.slug}
+                                          href={`#service-${service.slug}`}
+                                          onClick={() => setIsMenuOpen(false)}
+                                          className="flex items-center justify-between gap-3 rounded-2xl border border-avante-blue/10 bg-white/40 px-4 py-3 text-sm md:text-base font-bold tracking-[0.02em] text-slate-700 hover:border-avante-blue/30 hover:bg-white/70 hover:text-avante-dark transition-colors"
+                                        >
+                                          <span className="leading-snug">{service.title}</span>
+                                          <ArrowUpRight className="w-4 h-4 shrink-0" />
+                                        </a>
+                                      ))}
+                                    </div>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          ) : link.isPage || link.to === "" ? (
                             <a
                               href={`#${link.to}`}
                               onClick={(e) => {
@@ -267,7 +349,7 @@ export default function Navbar() {
                   </motion.nav>
 
                   <motion.div
-                    className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm"
+                    className="shrink-0 pt-5 border-t border-avante-blue/10 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm"
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, delay: 0.28 }}

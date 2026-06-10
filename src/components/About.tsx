@@ -42,7 +42,7 @@ export default function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
-                  className="flex items-center gap-3 bg-slate-50 border border-slate-100 rounded-lg p-3 shadow-sm w-full sm:w-max pr-6"
+                  className="flex items-center gap-3 bg-slate-50 border border-slate-200/60 rounded-2xl p-4 shadow-sm w-full sm:w-max pr-7"
                 >
                   <div className="bg-white rounded-full p-1 shadow-sm shrink-0">
                     <CheckCircle2 className="w-5 h-5 text-avante-blue" />
@@ -60,7 +60,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl hover:border-blue-100 transition-all duration-300 relative overflow-hidden group"
+              className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-lg hover:shadow-xl hover:border-avante-blue/25 transition-all duration-300 relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
               <div className="relative z-10 w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-avante-blue shadow-sm">

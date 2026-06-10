@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Link } from "react-scroll";
-import { ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -108,9 +107,9 @@ export default function Hero() {
           to="services"
           smooth={true}
           duration={500}
-          className="flex items-center justify-center py-4 sm:py-6 cursor-pointer group bg-gradient-to-b from-slate-50 to-[#0A3D91] hover:to-[#051C45] transition-all w-full"
+          className="flex items-center justify-center py-5 sm:py-7 md:py-8 cursor-pointer group bg-gradient-to-b from-slate-50 to-[#0A3D91] hover:to-[#051C45] transition-all w-full"
         >
-          <span className="block w-full px-4 sm:px-8 text-[3.2vw] sm:text-xl md:text-2xl lg:text-3xl font-black tracking-[0.2em] sm:tracking-[0.5em] uppercase text-white/80 group-hover:text-white transition-colors text-center">
+          <span className="block w-full px-4 sm:px-8 text-[5vw] sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-[0.16em] sm:tracking-[0.34em] uppercase text-white/85 group-hover:text-white transition-colors text-center">
             Check out our services
           </span>
         </Link>
