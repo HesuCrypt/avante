@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent, type WheelEvent, type TouchEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent, type WheelEvent, type TouchEvent } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { ArrowUpRight, ChevronDown, Plus, X } from "lucide-react";
 import { Link } from "react-scroll";
@@ -29,6 +29,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const [servicesExpanded, setServicesExpanded] = useState(false);
   const { scrollY } = useScroll();
+  const scrollLockRef = useRef<{ y: number; scrollBehavior: string }>({ y: 0, scrollBehavior: "" });
 
   useEffect(() => {
     const sectionIds = ["hero", "services", "partners"];
@@ -76,37 +77,31 @@ export default function Navbar() {
     scrollToHero();
   };
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      const scrollTop = window.scrollY;
-      document.body.dataset.scrollLockY = String(scrollTop);
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollTop}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-      document.body.dataset.menuOpen = "true";
-      if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      }
-    } else {
-      const lockedScrollY = Number(document.body.dataset.scrollLockY || "0");
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      document.body.style.paddingRight = "";
-      delete document.body.dataset.menuOpen;
-      delete document.body.dataset.scrollLockY;
-      window.scrollTo({ top: lockedScrollY, behavior: "instant" as ScrollBehavior });
+  useLayoutEffect(() => {
+    if (!isMenuOpen) return;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollTop = window.scrollY;
+    scrollLockRef.current = {
+      y: scrollTop,
+      scrollBehavior: document.documentElement.style.scrollBehavior,
+    };
+
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.scrollBehavior = "auto";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollTop}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.dataset.menuOpen = "true";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
+
     return () => {
+      const { y, scrollBehavior } = scrollLockRef.current;
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       document.body.style.position = "";
@@ -116,7 +111,8 @@ export default function Navbar() {
       document.body.style.width = "";
       document.body.style.paddingRight = "";
       delete document.body.dataset.menuOpen;
-      delete document.body.dataset.scrollLockY;
+      window.scrollTo(0, y);
+      document.documentElement.style.scrollBehavior = scrollBehavior;
     };
   }, [isMenuOpen]);
 
