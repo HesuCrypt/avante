@@ -8,10 +8,7 @@ import { EXPERTISE_SLIDES } from "../constants/expertise";
 const navLinks = [
   { name: "Home", to: "" },
   { name: "Services", to: "services" },
-  { name: "Vision", to: "vision" },
   { name: "Partners", to: "partners" },
-  { name: "Why Us", to: "why-us" },
-  { name: "Contact Us", to: "contact" },
   { name: "About Us", to: "about", isPage: true },
   { name: "Careers", to: "career", isPage: true },
 ];
@@ -34,7 +31,7 @@ export default function Navbar() {
   const { scrollY } = useScroll();
 
   useEffect(() => {
-    const sectionIds = ["hero", "services", "vision", "partners", "why-us", "contact"];
+    const sectionIds = ["hero", "services", "partners"];
     const observers = sectionIds.map(id => {
       const el = document.getElementById(id);
       if (!el) return null;

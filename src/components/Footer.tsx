@@ -68,7 +68,7 @@ export default function Footer() {
               <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-avante-blue/5 to-transparent rounded-[3rem] pointer-events-none" />
               
               <div className="relative z-10">
-                <h3 className="text-3xl font-bold mb-4 tracking-tight">Stay Connected</h3>
+                <h3 className="text-3xl font-bold mb-4 tracking-tight">Connect with us</h3>
                 <p className="text-blue-100/60 text-base mb-10 leading-relaxed max-w-sm">Join our network for exclusive digital insights and project updates.</p>
 
                 <form className="space-y-5 mb-12" onSubmit={(e) => e.preventDefault()}>

@@ -414,6 +414,9 @@ html {
       #e5e7eb 50%,
       #f3f4f6 75%);
   background-size: 200% 100%;
+}
+
+.image-placeholder.is-shimmer {
   animation: shimmer 1.5s infinite linear;
 }
 

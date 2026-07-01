@@ -8,7 +8,6 @@ import About from "./components/About";
 import Services from "./components/Services";
 import Vision from "./components/Vision";
 import WhyChooseUs from "./components/WhyChooseUs";
-import Contact from "./components/Contact";
 import Career from "./components/Career";
 import Footer from "./components/Footer";
 import ServiceDetail from "./components/ServiceDetail";
@@ -316,7 +315,6 @@ export default function App() {
                   <Services />
                   <Vision />
                   <WhyChooseUs />
-                  <Contact />
                 </motion.div>
               )}
             </AnimatePresence>

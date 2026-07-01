@@ -350,7 +350,7 @@ export default function ServiceDetail({ slug, onBack }: ServiceDetailProps) {
             Let's discuss how our {title.toLowerCase()} can help you achieve your goals.
           </p>
           <a
-            href="#contact"
+            href="mailto:hello@avantedigital.com"
             className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-4 rounded-2xl font-semibold text-lg hover:bg-slate-100 transition-all duration-300 hover:shadow-lg"
           >
             Get Started Today

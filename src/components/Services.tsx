@@ -11,18 +11,20 @@ const LERP_FACTOR = 0.06;
 /**
  * Optimized Image Component with Shimmer Placeholder
  */
-function OptimizedImage({ slide, isMobile }: { slide: ExpertiseSlide; isMobile: boolean }) {
+function OptimizedImage({ slide, isMobile, isActive }: { slide: ExpertiseSlide; isMobile: boolean; isActive: boolean }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const src = (isMobile && slide.mobileImage) ? slide.mobileImage : slide.image;
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {!isLoaded && <div className="absolute inset-0 image-placeholder z-0" />}
+      {!isLoaded && (
+        <div className={`absolute inset-0 image-placeholder z-0 ${isActive ? "is-shimmer" : ""}`} />
+      )}
       <img
         src={src}
         alt={slide.title}
-        loading="lazy"
+        loading={isActive ? "eager" : "lazy"}
         decoding="async"
         draggable={false}
         onLoad={() => setIsLoaded(true)}
@@ -34,6 +36,8 @@ function OptimizedImage({ slide, isMobile }: { slide: ExpertiseSlide; isMobile: 
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const isInViewRef = useRef(false);
   const gestureRef = useRef<{
     pointerId: number | null;
     startX: number;
@@ -45,27 +49,36 @@ export default function Services() {
   // ── Carousel rotation ──────────────────────────────────────────────────────
   const targetRotationRef = useRef(0);
   const currentRotationRef = useRef(0);
+  const activeIndexRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
 
-  const [currentRotation, setCurrentRotation] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [radius, setRadius] = useState(CAROUSEL_RADIUS);
-  const [isMobile, setIsMobile] = useState(false);
+  const [radius, setRadius] = useState(() => {
+    const w = window.innerWidth;
+    if (w < 640) return 350;
+    if (w < 1024) return 700;
+    return CAROUSEL_RADIUS;
+  });
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
+      const w = window.innerWidth;
+      if (w < 640) {
         setRadius(350);
         setIsMobile(true);
-      } else if (window.innerWidth < 1024) {
+        return;
+      }
+      if (w < 1024) {
         setRadius(700);
         setIsMobile(false);
-      } else {
-        setRadius(CAROUSEL_RADIUS);
-        setIsMobile(false);
+        return;
       }
+      setRadius(CAROUSEL_RADIUS);
+      setIsMobile(false);
     };
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -74,12 +87,79 @@ export default function Services() {
     const el = sectionRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+        setIsInView(entry.isIntersecting);
+      },
       { threshold: 0.2 },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  const applyTransform = (rotation: number) => {
+    if (!trackRef.current) return;
+    trackRef.current.style.transform = `translateZ(-${radius}px) rotateY(${-rotation}deg)`;
+  };
+
+  const stopAnimation = () => {
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+    isAnimatingRef.current = false;
+  };
+
+  const startAnimation = () => {
+    if (!isInViewRef.current) return;
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+
+    const tick = () => {
+      const current = currentRotationRef.current;
+      const target = targetRotationRef.current;
+      const next = current + (target - current) * LERP_FACTOR;
+
+      currentRotationRef.current = next;
+      applyTransform(next);
+
+      const clamped = Math.max(0, Math.min(TOTAL - 1, Math.round(next / ANGLE_PER_CARD)));
+      if (clamped !== activeIndexRef.current) {
+        activeIndexRef.current = clamped;
+        setActiveIndex(clamped);
+      }
+
+      if (Math.abs(target - next) < 0.05) {
+        currentRotationRef.current = target;
+        applyTransform(target);
+        const snapped = Math.max(0, Math.min(TOTAL - 1, Math.round(target / ANGLE_PER_CARD)));
+        if (snapped !== activeIndexRef.current) {
+          activeIndexRef.current = snapped;
+          setActiveIndex(snapped);
+        }
+        stopAnimation();
+        return;
+      }
+
+      rafIdRef.current = requestAnimationFrame(tick);
+    };
+
+    rafIdRef.current = requestAnimationFrame(tick);
+  };
+
+  useEffect(() => () => stopAnimation(), []);
+
+  useEffect(() => {
+    if (!isInView) {
+      stopAnimation();
+      return;
+    }
+    applyTransform(currentRotationRef.current);
+  }, [isInView]);
+
+  useEffect(() => {
+    applyTransform(currentRotationRef.current);
+  }, [radius]);
 
   // ─── Scroll listener — maps scroll progress to rotation ────────────────────
   useEffect(() => {
@@ -97,6 +177,7 @@ export default function Services() {
       }
 
       targetRotationRef.current = progress * MAX_ROTATION;
+      startAnimation();
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -104,25 +185,6 @@ export default function Services() {
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMobile]);
-
-  // ─── rAF loop — smooth rotation ───────────────────────────────────────────
-  useEffect(() => {
-    if (!isInView) return;
-    let frameId: number;
-    const tick = () => {
-      const next = currentRotationRef.current +
-        (targetRotationRef.current - currentRotationRef.current) * LERP_FACTOR;
-      currentRotationRef.current = next;
-
-      const clamped = Math.max(0, Math.min(TOTAL - 1, Math.round(next / ANGLE_PER_CARD)));
-
-      setCurrentRotation(next);
-      setActiveIndex(clamped);
-      frameId = requestAnimationFrame(tick);
-    };
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [isInView]);
 
   // ─── Arrow navigation ──────────────────────────────────────────────────────
   const scrollToIndex = (i: number) => {
@@ -144,6 +206,7 @@ export default function Services() {
   const goToIndex = (i: number) => {
     const clampedIndex = Math.max(0, Math.min(TOTAL - 1, i));
     targetRotationRef.current = clampedIndex * ANGLE_PER_CARD;
+    startAnimation();
   };
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
@@ -185,6 +248,7 @@ export default function Services() {
     e.preventDefault();
     const sensitivity = 0.18;
     targetRotationRef.current = g.startRotation - dx * sensitivity;
+    startAnimation();
   };
 
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
@@ -194,6 +258,7 @@ export default function Services() {
       const snapped = Math.round(targetRotationRef.current / ANGLE_PER_CARD);
       const clamped = Math.max(0, Math.min(TOTAL - 1, snapped));
       targetRotationRef.current = clamped * ANGLE_PER_CARD;
+      startAnimation();
     }
     g.pointerId = null;
     g.mode = "undecided";
@@ -219,8 +284,9 @@ export default function Services() {
             onPointerCancel={onPointerUp}
           >
             <div
+              ref={trackRef}
               className="carousel-track"
-              style={{ transform: `translateZ(-${radius}px) rotateY(${-currentRotation}deg)` }}
+              style={{ transform: `translateZ(-${radius}px) rotateY(${-currentRotationRef.current}deg)` }}
             >
               <div className="carousel-content-wrap">
                 {EXPERTISE_SLIDES.map((slide, index) => (
@@ -231,7 +297,7 @@ export default function Services() {
                     style={{ transform: `rotateY(${index * ANGLE_PER_CARD}deg) translateZ(${radius}px)` }}
                   >
                     <div className="card-inner">
-                      <OptimizedImage slide={slide} isMobile />
+                      <OptimizedImage slide={slide} isMobile isActive={index === activeIndex} />
                       <div className="card-text card-text-mobile">
                         <h2 className="heading">{slide.title}</h2>
                         <p className="card-subtitle">{slide.subtitle}</p>
@@ -264,8 +330,9 @@ export default function Services() {
         <p className="expertise-label">SERVICES</p>
         <div className="carousel-component">
           <div
+            ref={trackRef}
             className="carousel-track"
-            style={{ transform: `translateZ(-${radius}px) rotateY(${-currentRotation}deg)` }}
+            style={{ transform: `translateZ(-${radius}px) rotateY(${-currentRotationRef.current}deg)` }}
           >
             <div className="carousel-content-wrap">
               {EXPERTISE_SLIDES.map((slide, index) => (
@@ -276,7 +343,7 @@ export default function Services() {
                   style={{ transform: `rotateY(${index * ANGLE_PER_CARD}deg) translateZ(${radius}px)` }}
                 >
                   <div className="card-inner">
-                    <OptimizedImage slide={slide} isMobile={false} />
+                    <OptimizedImage slide={slide} isMobile={false} isActive={index === activeIndex} />
                     <div className="card-text card-text-desktop">
                       <h2 className="heading">{slide.title}</h2>
                       <p className="card-subtitle">{slide.subtitle}</p>
